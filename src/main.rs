@@ -8,7 +8,7 @@ struct Args {
     #[arg(help = "The command, only 'remove-meta' support currently.")]
     command: String,
 
-    #[arg(long, help = "Specify the txn path, only support absolute path.")]
+    #[arg(long, help = "Specify the txn path, will process all .beancount files recursively.")]
     txn_path: String,
 }
 
@@ -31,11 +31,14 @@ fn main() {
 fn process_beancount_files(directory: &str) {
     let paths = fs::read_dir(directory).unwrap();
 
-    for path in paths {
-        let entry = path.unwrap();
+    for entry in paths {
+        let entry = entry.unwrap();
         let path = entry.path();
 
-        if path.is_file() && path.extension().unwrap_or_default() == "beancount" {
+        if path.is_dir() {
+            // Recursively process subdirectories
+            process_beancount_files(path.to_str().unwrap());
+        } else if path.is_file() && path.extension().unwrap_or_default() == "beancount" {
             process_file(path.to_str().unwrap());
         }
     }
