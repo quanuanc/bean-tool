@@ -50,7 +50,7 @@ fn process_file(path: &str) {
         "status: ", "type: ", "alipay_trade_no: ", "wechat_trade_no: ",
         "  note: ", "shop_trade_no: ", "timestamp: ", "trade_time: ",
         "balances: ", "currency: ", "peerAccount: ", "txType: ", "type: ",
-        "trade_time: ", "merchantId: ",
+        "trade_time: ", "merchantId: ", "peerAccountNum: ",
     ];
 
     let content = fs::read_to_string(path).unwrap();
